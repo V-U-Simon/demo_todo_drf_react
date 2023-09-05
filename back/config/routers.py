@@ -11,9 +11,9 @@ from users_app.views import UserModelViewSet
 router = DefaultRouter()
 
 # Here will registered viewsets
-router.register(r"users", UserModelViewSet)
-router.register("projects", ProjectModelViewSet)
+# router.register(r"users", UserModelViewSet)
 router.register("users", ProjectUserModelViewSet)
+router.register("projects", ProjectModelViewSet)
 router.register("todo", ToDoModelViewSet)
 
 urlpatterns = router.urls

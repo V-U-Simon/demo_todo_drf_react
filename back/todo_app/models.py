@@ -65,3 +65,7 @@ class ToDo(models.Model):  # Задача, стоящая перед польз�
 
     def __str__(self):
         return self.description
+
+    class Meta:
+        verbose_name = "todo"
+        verbose_name_plural = "todos"
