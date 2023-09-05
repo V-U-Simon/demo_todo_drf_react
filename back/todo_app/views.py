@@ -3,10 +3,10 @@ from rest_framework.viewsets import ModelViewSet
 # from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.mixins import *
 
-
 from .models import Project, ProjectUser, ToDo
 from .filters import ProjectContainsFilter
 from .serializers import ProjectUserSerializer, ProjectSerializer, ToDoSerializer
+from .permissions import ProjectOwnerOrReadOnly
 
 
 # class ProjectLimitOffsetPagination(LimitOffsetPagination):
@@ -22,6 +22,7 @@ class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
     # pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectContainsFilter
+    permission_classes = (ProjectOwnerOrReadOnly,)
 
 
 class ProjectUserModelViewSet(ModelViewSet):
