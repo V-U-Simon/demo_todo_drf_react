@@ -1,8 +1,20 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
+from rest_framework.viewsets import GenericViewSet
+
 from .models import MyUserModel
 from .serializers import UserModelSerializer
 
 
-class UserModelViewSet(ModelViewSet):
+class UserLimitOffsetPagination(LimitOffsetPagination):
+    default_limit = 20
+
+
+class UserModelViewSet(
+    ListModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet
+):
     queryset = MyUserModel.objects.all()
     serializer_class = UserModelSerializer
+    pagination_class = UserLimitOffsetPagination
+    renderer_classes = [JSONRenderer, BrowsableAPIRenderer]

@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework.relations import StringRelatedField
-from todo_app.models import Project, ProjectUser, ToDo
+
+from .models import Project, ProjectUser, ToDo
 
 
 class ProjectSerializer(ModelSerializer):

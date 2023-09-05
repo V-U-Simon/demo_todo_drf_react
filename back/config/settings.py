@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "rest_framework",
+    "django_filters",
     "corsheaders",
+    "rest_framework",
     "users_app",
     "todo_app",
 ]
@@ -54,6 +55,9 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 100,
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     # "DEFAULT_PERMISSION_CLASSES": [
     #     "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     # ],
