@@ -6,6 +6,7 @@ class UserModelSerializer(ModelSerializer):
     class Meta:
         model = MyUserModel
         fields = [
+            "id",
             "age",
             "username",
             "first_name",
