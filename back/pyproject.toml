@@ -15,6 +15,7 @@ django-filter = "^23.2"
 pytest = "^7.4.1"
 pytest-django = "^4.5.2"
 drf-yasg = "^1.21.7"
+graphene-django = "^3.1.5"
 
 
 [build-system]

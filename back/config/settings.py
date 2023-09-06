@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_yasg",
+    "graphene_django",
     "rest_framework",
     "users_app",
     "todo_app",
@@ -82,6 +83,7 @@ SWAGGER_SETTINGS = {
     }
 }
 
+GRAPHENE = {"SCHEMA": "todo_app.schema"}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
