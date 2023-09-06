@@ -2,6 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 
 # from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.mixins import *
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Project, ProjectUser, ToDo
 from .filters import ProjectContainsFilter
@@ -15,8 +16,6 @@ from .permissions import ProjectOwnerOrReadOnly
 
 # class ToDoLimitOffsetPagination(LimitOffsetPagination):
 #     default_limit = 20
-
-from rest_framework.permissions import IsAuthenticated
 
 
 class ProjectModelViewSet(ModelViewSet):
