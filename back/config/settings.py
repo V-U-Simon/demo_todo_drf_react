@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django_filters",
     "rest_framework.authtoken",
     "corsheaders",
+    "drf_yasg",
     "rest_framework",
     "users_app",
     "todo_app",
@@ -71,6 +72,14 @@ if DEBUG:
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"].append(
         "rest_framework.renderers.BrowsableAPIRenderer"
     )
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Basic": {"type": "basic"},
+        "Token": {"type": "apiKey", "name": "Authorization", "in": "header"},
+    }
+}
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
