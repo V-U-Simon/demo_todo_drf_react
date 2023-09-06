@@ -16,13 +16,16 @@ from .permissions import ProjectOwnerOrReadOnly
 # class ToDoLimitOffsetPagination(LimitOffsetPagination):
 #     default_limit = 20
 
+from rest_framework.permissions import IsAuthenticated
+
 
 class ProjectModelViewSet(ModelViewSet):
     serializer_class = ProjectSerializer
     queryset = Project.objects.all()
     # pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectContainsFilter
-    permission_classes = (ProjectOwnerOrReadOnly,)
+    # поскольку права проверяются в последовательно: has_permission, затем has_object_permission, добавляем IsAuthenticated
+    permission_classes = [IsAuthenticated, ProjectOwnerOrReadOnly]
 
 
 class ProjectUserModelViewSet(ModelViewSet):
