@@ -83,7 +83,10 @@ SWAGGER_SETTINGS = {
     }
 }
 
-GRAPHENE = {"SCHEMA": "todo_app.schema"}
+GRAPHENE = {
+    "SCHEMA": "todo_app.schema.schema",
+}
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

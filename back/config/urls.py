@@ -3,6 +3,8 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.authtoken import views
+from graphene_django.views import GraphQLView
+from django.views.decorators.csrf import csrf_exempt
 
 from .routers import urlpatterns as routes
 
@@ -28,12 +30,13 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path("api-auth-token/", views.obtain_auth_token),
     path("api/", include(routes)),
-    path("swagger<format>/", schema_view.without_ui(cache_timeout=0), name="schema-json"),
-    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui",),
-    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 ]
-# fmt: on
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += path("swagger<format>/", schema_view.without_ui(cache_timeout=0), name="schema-json"),
+    urlpatterns += path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui",),
+    urlpatterns += path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    urlpatterns += path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+# fmt: on
