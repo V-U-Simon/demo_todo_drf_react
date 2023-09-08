@@ -60,7 +60,7 @@ class ToDo(models.Model):
     users = models.ForeignKey(
         ProjectUser,
         verbose_name="Пользователи",
-        related_name="creatooor",
+        related_name="creator",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

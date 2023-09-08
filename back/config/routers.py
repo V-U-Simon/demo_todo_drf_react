@@ -12,8 +12,8 @@ router = DefaultRouter()
 
 # Here will registered viewsets
 # router.register(r"users", UserModelViewSet)
-router.register("users", UserModelViewSet)
-router.register("users_with_project", ProjectUserModelViewSet)
+# router.register("users", UserModelViewSet)
+router.register("users", ProjectUserModelViewSet)
 router.register("projects", ProjectModelViewSet)
 router.register("todo", ToDoModelViewSet)
 
