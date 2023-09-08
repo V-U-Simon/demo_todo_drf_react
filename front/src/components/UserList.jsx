@@ -25,10 +25,10 @@ const UserItem = ({ user }) => {
     <tr>
       <td>{user.id}</td>
       <td>{user.username}</td>
-      <td>{user.first_name}</td>
-      <td>{user.last_name}</td>
+      <td>{user.firstName}</td>
+      <td>{user.lastName}</td>
       <td>{user.email}</td>
-      <td>{user.phone_number}</td>
+      <td>{user.phoneNumber}</td>
     </tr>
   );
 };
