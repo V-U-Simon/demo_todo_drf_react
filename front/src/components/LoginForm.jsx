@@ -1,22 +1,31 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useState } from "react";
+import { AuthContext } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
-export default function LoginForm({ obtainAuthToken }) {
-  const [state, setState] = useState({
-    login: "",
-    password: "",
-  });
+export default function LoginForm() {
+  const navigate = useNavigate();
+  const [token, setToken] = useContext(AuthContext);
+
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const changeLogin = (event) => setLogin(event.target.value);
+  const changePassword = (event) => setPassword(event.target.value);
 
   const handleSubmit = (event) => {
-    obtainAuthToken(state.login, state.password);
+    axios
+      .post("http://127.0.0.1:8000/api-auth-token/", {
+        username: login,
+        password: password,
+      })
+      .then((response) => {
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
+        console.log("write in localStorage: " + response.data.token);
+      })
+      .catch((error) => console.log(error));
     event.preventDefault();
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    navigate(localStorage.getItem("previousUrl") || "/");
   };
 
   return (
@@ -29,8 +38,8 @@ export default function LoginForm({ obtainAuthToken }) {
           type="text"
           name="login"
           placeholder="login"
-          value={state.login}
-          onChange={handleChange}
+          value={login}
+          onChange={changeLogin}
           className="input input-bordered"
         />
       </div>
@@ -43,8 +52,8 @@ export default function LoginForm({ obtainAuthToken }) {
           type="password"
           name="password"
           placeholder="password"
-          value={state.password}
-          onChange={handleChange}
+          value={password}
+          onChange={changePassword}
           className="input input-bordered"
         />
       </div>
