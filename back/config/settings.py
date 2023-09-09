@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,17 +22,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-r*tub%1^4t!%6n^)htd@0obw+m*48ak)z8%72&p6&$-02-u6z$"
+SECRET_KEY = (
+    os.getenv("DJANGO_SECRET_KEY")
+    or "django-insecure-r*tub%1^4t!%6n^)htd@0obw+m*48ak)z8%72&p6&$-02-u6z$"
+)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# SECURITY WARNING: don't run withЯ щас скажу задолбался уже что-то побежал debug turned on in production!
+DEBUG = os.getenv("DJANGO_DEBUG") or True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split() or ["*"]
+INTERNAL_IPS = ["127.0.0.1"]
+
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "http://0.0.0.0:5173",
+    "http://localhost",
 ]
 
 
@@ -136,13 +144,24 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB") or "todo",
+        "USER": os.getenv("POSTGRES_USER") or "postgres",
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD") or "password",
+        "HOST": os.getenv("POSTGRES_HOST") or "localhost",
+        "PORT": os.getenv("PG_PORT") or "5433",
+        # "PORT": os.getenv("EXT_PG_PORT") or "5433",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -1,0 +1,22 @@
+version: "3.8"
+
+volumes:
+  static:
+
+
+services:
+  web:
+    container_name: ${PROJECT_NAME}-back
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./back:/back
+      # как понимаю это путь для nginx в проде?
+      - static:/usr/src/app/static
+    ports:
+      - "8000:8000"
+    networks:
+      - default
