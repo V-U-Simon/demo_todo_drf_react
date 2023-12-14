@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import { AuthContext } from "./AuthContext";
+// import { AuthContext } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
+import useSession from "../store/useSession";
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const [token, setToken] = useContext(AuthContext);
+  const session = useSession();
+  // const [token, setToken] = useContext(AuthContext);
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -13,19 +15,18 @@ export default function LoginForm() {
   const changePassword = (event) => setPassword(event.target.value);
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     axios
       .post("http://127.0.0.1:8000/api-auth-token/", {
         username: login,
         password: password,
       })
       .then((response) => {
-        setToken(response.data.token);
-        localStorage.setItem("token", response.data.token);
-        console.log("write in localStorage: " + response.data.token);
+        session.login(response.data);
+        console.log(response.data);
+        navigate(localStorage.getItem("previousUrl") || "/");
       })
       .catch((error) => console.log(error));
-    event.preventDefault();
-    navigate(localStorage.getItem("previousUrl") || "/");
   };
 
   return (
