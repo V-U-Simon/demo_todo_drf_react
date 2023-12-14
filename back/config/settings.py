@@ -68,7 +68,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        # "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.AllowAny",
         # "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ],
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.AcceptHeaderVersioning",
@@ -206,10 +207,9 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # STATIC
-STATIC_ROOT = "staticfiles"  # 📁 папка для раздачи статики (project/staticfiles)
-STATICFILES_DIRS = [BASE_DIR / "static"]  # 🔍 пути поиска статики (для сбора)
+STATIC_ROOT = "static"  # 📁 папка для раздачи статики (project/staticfiles)
 STATIC_URL = "/static/"  # 🔗 url путь к статике для debag
 
 # MEDIA
-MEDIA_ROOT = "medialfiles"  # 📁 папка для раздачи медиа (project/medialfiles)
+MEDIA_ROOT = "media"  # 📁 папка для раздачи медиа (project/medialfiles)
 MEDIA_URL = "/media/"  # 🔗 url путь к медиа для debag
