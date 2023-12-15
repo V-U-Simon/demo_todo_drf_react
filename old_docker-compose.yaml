@@ -1,0 +1,67 @@
+version: "3.8"
+
+services:
+  back:
+    container_name: ${PROJECT_NAME}-back
+    build:
+      context: .
+      dockerfile: Dockerfile.back
+    env_file:
+      - .env
+    volumes:
+      - ./back:/back
+      - ./back/staticfiles:/usr/src/app/static
+    ports:
+      - "8000:8000"
+    networks:
+      - default
+
+  # front:
+  #   container_name: ${PROJECT_NAME}-front
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.front
+
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - default
+
+  db:
+    image: postgres:alpine
+    # image: postgres:13.2
+    container_name: ${PROJECT_NAME}-db
+    environment:
+      PGDATA: /data/postgres
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/data/postgres
+      # - pgdata:/var/lib/postgresql/data
+    ports:
+      - "${PG_EXT_PORT}:${PG_PORT}"
+    networks:
+      - default
+
+  nginx:
+    image: nginx:latest
+    container_name: ${PROJECT_NAME}-nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./back/staticfiles:/usr/src/app/static
+      - ./front/dist:/var/www
+    ports:
+      - "80:80"
+    depends_on:
+      # - front
+      - back
+      - db
+    networks:
+      - default
+
+networks:
+  default:
+
+
+volumes:
+  pgdata:
