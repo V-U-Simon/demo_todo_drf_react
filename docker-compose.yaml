@@ -1,0 +1,57 @@
+version: '3.9'
+
+volumes:
+  pgdata:
+
+
+services:
+  django-app:
+    container_name: django-app
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+      - /app/.venv
+    ports:
+      - 8000:8000
+    networks:
+      - default
+    depends_on:
+      - postgres_db
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+
+  postgres_db:
+    container_name: postgres_db
+    image: postgres:16.1
+    env_file:
+      - .env
+    environment:
+      PGDATA: /data/postgres
+    volumes:
+      - pgdata:/data/postgres
+    ports:
+      - "${DB_EXT_PORT}:5432"
+    networks:
+      - default
+
+  react-app:
+    container_name: react-app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./backend/static:/var/www/static
+      - ./frontend/dist:/var/www
+    ports:
+      - "80:80"
+    networks:
+      - default
+    depends_on:
+      - postgres_db
+      - django-app
